@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import re
+from time import time
 
 data_dir = os.path.join(os.path.join(os.getcwd(), 'LF-AmazonTitles-1.3M.bow'), 'LF-AmazonTitles-1.3M')
 
@@ -32,6 +33,12 @@ def data_process_create_csv(file):
 
 if __name__ == "__main__":
 
+    start = time()
+
     data_process_create_csv('train.txt')
 
     data_process_create_csv('test.txt')
+    end = time()
+    print('RAM Used (GB):', psutil.virtual_memory()[3]/1000000000)
+    print('The CPU usage is: ', psutil.cpu_percent(4))
+    print('Time taken for Processing Data =',(end - start) /60, 'min')

@@ -4,11 +4,13 @@ from torch import nn, optim
 from torch.autograd import Variable
 from time import time
 from AutoEncoder import *
+import psutil
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def train(text_reader, epochs):
+    start = time()
     if not os.path.exists(os.path.join(os.getcwd(), 'model')):
         os.mkdir(os.path.join(os.getcwd(), 'model'))
     length = 0
@@ -34,3 +36,7 @@ def train(text_reader, epochs):
         print("Epoch {} - Training Loss for AutoEncoder Training: {}".format(e_no, running_loss / length))
         print("Training Time in Minute=", (time() - time0) / 60)
     torch.save(model, path)
+    end = time()
+    print('RAM Used (GB):', psutil.virtual_memory()[3]/1000000000)
+    print('The CPU usage is: ', psutil.cpu_percent(4))
+    print('Time taken for Model training =',(end - start) /60, 'min')
